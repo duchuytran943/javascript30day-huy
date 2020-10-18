@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clock</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        background: url("./img-bg") bottom center;
+      }
+
+      .clock {
+        width: 30rem;
+        height: 30rem;
+        margin: 50px auto;
+        padding: 1.5rem;
+        display: flex;
+
+        border: 1.5rem solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #efefef,
+          inset 0 0 10px black, 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .clock-face {
+        flex: 1;
+        position: relative;
+      }
+
+      .hand {
+        width: 50%;
+        height: 0.5rem;
+        background-color: #ff9190;
+        position: absolute;
+        top: 50%;
+
+        transform: translateY(-50%);
+        transform-origin: 100%;
+        transform: rotate(90deg);
+      }
+
+      .minus-hand {
+        background-color: red;
+      }
+
+      .hours-hand {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hours-hand"></div>
+        <div class="hand minus-hand"></div>
+        <div class="hand seconds-hand"></div>
+      </div>
+    </div>
+
+    <script>
+      const secondsHand = document.querySelector(`.seconds-hand`);
+      const minusHand = document.querySelector(`.minus-hand`);
+      const hoursHand = document.querySelector(`.hours-hand`);
+
+      function handleHand() {
+        const date = new Date();
+
+        const seconds = date.getSeconds();
+        secondsDeg = (seconds / 60) * 360 + 90;
+        secondsHand.style.transform = `rotate(${secondsDeg}deg)`;
+
+        const minus = date.getMinutes();
+        minusDeg = (minus / 60) * 360 + (seconds / 60) * 6 + 90;
+        minusHand.style.transform = `rotate(${minusDeg}deg)`;
+
+        const hours = date.getHours();
+        hoursDeg = (hours / 12) * 360 + (minus / 60) * 30 + 90;
+        hoursHand.style.transform = `rotate(${hoursDeg}deg)`;
+      }
+
+      setInterval(handleHand, 1000);
+    </script>
+  </body>
+</html>
