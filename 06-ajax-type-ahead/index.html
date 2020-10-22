@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax type ahead</title>
+  </head>
+  <body>
+    <div>
+      <h1>Search Cities</h1>
+      <input type="text" name="search" id="search" />
+      <ul class="result"></ul>
+    </div>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const cities = [];
+
+      fetch(endpoint)
+        .then((blod) => blod.json())
+        .then((data) => cities.push(...data));
+      console.log(cities);
+
+      const searchElement = document.querySelector(`#search`);
+
+      function findMatchs(keySearch, cities) {
+        const keySearchReg = new RegExp(keySearch, "gi");
+        return cities.filter((citie) => {
+          return (
+            citie.city.match(keySearchReg) || citie.state.match(keySearchReg)
+          );
+        });
+      }
+
+      function displayMatchs() {
+        console.log(this.value);
+        const aaa = findMatchs(this.value, cities);
+        console.log(aaa);
+      }
+
+      searchElement.addEventListener("change", displayMatchs);
+      searchElement.addEventListener("keyup", displayMatchs);
+    </script>
+  </body>
+</html>
