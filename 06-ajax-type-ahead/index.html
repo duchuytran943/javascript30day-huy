@@ -23,6 +23,7 @@
       console.log(cities);
 
       const searchElement = document.querySelector(`#search`);
+      const resultsElement = document.querySelector(`.result`);
 
       function findMatchs(keySearch, cities) {
         const keySearchReg = new RegExp(keySearch, "gi");
@@ -34,9 +35,11 @@
       }
 
       function displayMatchs() {
-        console.log(this.value);
-        const aaa = findMatchs(this.value, cities);
-        console.log(aaa);
+        const resutlsSearch = findMatchs(this.value, cities);
+        const renderHtml = resutlsSearch
+          .map((r) => `<li>${r.city} - ${r.state}    ${r.population}</li>`)
+          .join("");
+        resultsElement.innerHTML = renderHtml;
       }
 
       searchElement.addEventListener("change", displayMatchs);
